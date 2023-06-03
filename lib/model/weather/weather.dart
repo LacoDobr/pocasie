@@ -1,9 +1,11 @@
+import 'package:pocasie/model/weather/hour.dart';
 import 'current.dart';
 import 'forecast.dart';
 
 class Weather {
   Current? current;
   Forecast? forecast;
+  String? errorInfo;
 
   Weather({this.current, this.forecast});
 
@@ -11,16 +13,39 @@ class Weather {
     return current!;
   }
 
+  List<Hour> getHourlyInfo() {
+    return forecast!.forecastday!.first.hour!;
+  }
+
   Forecast getForecast() {
     return forecast!;
   }
 
+  String? getErrorInfo() {
+    return errorInfo;
+  }
+
+  void setErrorInfo(String errorInfo) {
+    this.errorInfo = errorInfo;
+  }
+
+  void specifyValues(Map<String, dynamic> json) {
+    current!.specifyValues(
+      json['main'] ?? <String, dynamic>{},
+      json['wind'] ?? <String, dynamic>{},
+      json['clouds'] ?? <String, dynamic>{},
+      json['weather'] == null
+          ? <String, dynamic>{}
+          : (json['weather'][0] ?? <String, dynamic>{}),
+    );
+  }
+
   factory Weather.fromJson(Map<String, dynamic> json) => Weather(
         current: json['current'] == null
-            ? null
+            ? Current.fromJson(<String, dynamic>{})
             : Current.fromJson(json['current'] as Map<String, dynamic>),
         forecast: json['forecast'] == null
-            ? null
+            ? Forecast.fromJson(<String, dynamic>{})
             : Forecast.fromJson(json['forecast'] as Map<String, dynamic>),
       );
 

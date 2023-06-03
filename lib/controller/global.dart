@@ -27,39 +27,26 @@ class GlobalController extends GetxController {
   }
 
   getLocation() async {
-    bool isEnabled;
-    LocationPermission locationPermission;
-
-    isEnabled = await Geolocator.isLocationServiceEnabled();
-
-    if (!isEnabled) {
-      return Future.error("Lokalizacne sluzby su vypnute");
-    }
-
-    locationPermission = await Geolocator.checkPermission();
+    LocationPermission locationPermission =
+        await Geolocator.requestPermission();
 
     if (locationPermission == LocationPermission.deniedForever) {
-      return Future.error("Lokalizacne sluzby su zamietnute navzdy");
+      isLoading.value = false;
+      return weatherData()
+          .setErrorInfo('Location services are permanently denied');
     } else if (locationPermission == LocationPermission.denied) {
-      locationPermission = await Geolocator.requestPermission();
-
-      if (locationPermission == LocationPermission.denied) {
-        return Future.error("Lokalizacne sluzby su zamietnute");
-      }
+      isLoading.value = false;
+      return weatherData().setErrorInfo('Location services are denied');
     }
 
-    return await Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high)
-        .then((value) {
-      lattitude.value = value.latitude;
-      longitude.value = value.longitude;
+    var position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    lattitude.value = position.latitude;
+    longitude.value = position.longitude;
 
-      return FetchWeatherAPI()
-          .processData(value.latitude, value.longitude)
-          .then((value) {
-        weatherData.value = value;
-        isLoading.value = false;
-      });
-    });
+    var value = await FetchWeatherAPI()
+        .processData(position.latitude, position.longitude);
+    weatherData.value = value;
+    isLoading.value = false;
   }
 }

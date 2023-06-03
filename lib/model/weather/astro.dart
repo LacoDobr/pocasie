@@ -4,7 +4,6 @@ class Astro {
   String? moonrise;
   String? moonset;
   String? moonPhase;
-  String? moonIllumination;
 
   Astro({
     this.sunrise,
@@ -12,7 +11,6 @@ class Astro {
     this.moonrise,
     this.moonset,
     this.moonPhase,
-    this.moonIllumination,
   });
 
   factory Astro.fromJson(Map<String, dynamic> json) => Astro(
@@ -21,7 +19,6 @@ class Astro {
         moonrise: json['moonrise'] as String?,
         moonset: json['moonset'] as String?,
         moonPhase: json['moon_phase'] as String?,
-        moonIllumination: json['moon_illumination'] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -30,6 +27,5 @@ class Astro {
         'moonrise': moonrise,
         'moonset': moonset,
         'moon_phase': moonPhase,
-        'moon_illumination': moonIllumination,
       };
 }

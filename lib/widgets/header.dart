@@ -11,7 +11,7 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> {
-  String city = "";
+  String city = "--";
 
   final GlobalController globalController =
       Get.put(GlobalController(), permanent: true);
@@ -39,16 +39,14 @@ class _HeaderState extends State<Header> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          margin: const EdgeInsets.only(left: 20, right: 20),
-          child: Text(
-            city,
-            style: TextStyle(fontSize: 40, height: 2),
-          ),
-        )
-      ],
-    );
+    return Column(children: [
+      Container(
+        margin: const EdgeInsets.only(left: 20, right: 20),
+        child: Text(
+          city,
+          style: const TextStyle(fontSize: 40, height: 2),
+        ),
+      ),
+    ]);
   }
 }
