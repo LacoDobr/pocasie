@@ -14,7 +14,7 @@ class Weather {
   }
 
   List<Hour> getHourlyInfo() {
-    return forecast!.forecastday!.first.hour!;
+    return forecast!.forecastday!.first.hours!;
   }
 
   Forecast getForecast() {
@@ -23,6 +23,22 @@ class Weather {
 
   String? getErrorInfo() {
     return errorInfo;
+  }
+
+  double getCurrentPressure() {
+    double pressure = 870;
+    if (current?.pressureMb != null) {
+      pressure = current!.pressureMb!;
+    }
+    return pressure;
+  }
+
+  double getCurrentUV() {
+    double uv = 0;
+    if (current?.uv != null) {
+      uv = current!.uv!;
+    }
+    return uv;
   }
 
   void setErrorInfo(String errorInfo) {

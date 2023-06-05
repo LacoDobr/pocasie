@@ -6,9 +6,9 @@ class Forecastday {
   int? dateEpoch;
   Day? day;
   Astro? astro;
-  List<Hour>? hour;
+  List<Hour>? hours;
 
-  Forecastday({this.dateEpoch, this.day, this.astro, this.hour});
+  Forecastday({this.dateEpoch, this.day, this.astro, this.hours});
 
   factory Forecastday.fromJson(Map<String, dynamic> json) => Forecastday(
         dateEpoch: json['date_epoch'] as int?,
@@ -18,7 +18,7 @@ class Forecastday {
         astro: json['astro'] == null
             ? Astro.fromJson(<String, dynamic>{})
             : Astro.fromJson(json['astro'] as Map<String, dynamic>),
-        hour: json['hour'] == null
+        hours: json['hour'] == null
             ? [Hour.fromJson(<String, dynamic>{})]
             : (json['hour'] as List<dynamic>?)
                 ?.map((e) => Hour.fromJson(e as Map<String, dynamic>))
@@ -29,6 +29,6 @@ class Forecastday {
         'date_epoch': dateEpoch,
         'day': day?.toJson(),
         'astro': astro?.toJson(),
-        'hour': hour?.map((e) => e.toJson()).toList(),
+        'hour': hours?.map((e) => e.toJson()).toList(),
       };
 }

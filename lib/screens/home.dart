@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pocasie/controller/global.dart';
+import 'package:pocasie/widgets/circular_sliders.dart';
 import 'package:pocasie/widgets/current_weather.dart';
 import 'package:pocasie/widgets/daily_forecast.dart';
-import 'package:pocasie/widgets/error_alert.dart';
+import 'package:pocasie/screens/error_alert.dart';
 import 'package:pocasie/widgets/header.dart';
-import 'package:pocasie/widgets/hourly_info.dart';
+import 'package:pocasie/widgets/hourly_forecast.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,12 +40,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       currentWeather:
                           globalController.getWeatherData().getCurrentWeather(),
                     ),
-                    HourlyInfo(
+                    HourlyForecast(
                       hours: globalController.getWeatherData().getHourlyInfo(),
                     ),
                     DailyForecast(
                       forecast: globalController.getWeatherData().getForecast(),
                     ),
+                    CircularSliders(
+                        pressure: globalController
+                            .getWeatherData()
+                            .getCurrentPressure(),
+                        uv: globalController.getWeatherData().getCurrentUV())
                   ]))),
       ),
     );

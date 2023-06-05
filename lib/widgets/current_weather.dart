@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pocasie/model/weather/current.dart';
+import 'package:pocasie/widgets/weather_condition_text.dart';
 
 class CurrentWeather extends StatelessWidget {
   final Current currentWeather;
@@ -10,7 +11,9 @@ class CurrentWeather extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       temperature(),
-      conditionText(),
+      WeatherConditionText(
+          text: currentWeather.condition?.text,
+          color: const Color.fromARGB(255, 106, 106, 106)),
       details(),
     ]);
   }
@@ -41,88 +44,89 @@ class CurrentWeather extends StatelessWidget {
     ]);
   }
 
-  Widget conditionText() {
-    return RichText(
-        text: TextSpan(
-      text: "${currentWeather.condition?.text}",
-      style: const TextStyle(
-        fontSize: 23,
-        color: Color.fromARGB(255, 106, 106, 106),
-      ),
-    ));
-  }
-
   Widget details() {
     return Container(
       margin: const EdgeInsets.only(top: 30, bottom: 20),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        Column(children: [
-          Container(
-            height: 60,
-            width: 60,
-            margin: const EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(120, 227, 227, 227),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Image.asset(
-              "assets/icons/wind.png",
-              scale: 3,
-            ),
-          ),
-          RichText(
-              text: TextSpan(
-            text: "${currentWeather.windKph?.round()} km/h",
-            style: const TextStyle(
-              color: Color.fromARGB(255, 0, 0, 0),
-            ),
-          )),
-        ]),
-        Column(children: [
-          Container(
-            height: 60,
-            width: 60,
-            margin: const EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(120, 227, 227, 227),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Image.asset(
-              "assets/icons/cloud.png",
-              scale: 3,
-            ),
-          ),
-          RichText(
-              text: TextSpan(
-            text: "${currentWeather.cloud} %",
-            style: const TextStyle(
-              color: Color.fromARGB(255, 0, 0, 0),
-            ),
-          )),
-        ]),
-        Column(children: [
-          Container(
-            height: 60,
-            width: 60,
-            margin: const EdgeInsets.only(bottom: 5),
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(120, 227, 227, 227),
-              borderRadius: BorderRadius.circular(15),
-            ),
-            child: Image.asset(
-              "assets/icons/humidity.png",
-              scale: 3,
-            ),
-          ),
-          RichText(
-              text: TextSpan(
-            text: "${currentWeather.humidity} %",
-            style: const TextStyle(
-              color: Color.fromARGB(255, 0, 0, 0),
-            ),
-          )),
-        ]),
+        wind(),
+        cloud(),
+        humidity(),
       ]),
     );
+  }
+
+  Widget wind() {
+    return Column(children: [
+      Container(
+        height: 60,
+        width: 60,
+        margin: const EdgeInsets.only(bottom: 5),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(120, 227, 227, 227),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Image.asset(
+          "assets/icons/wind.png",
+          scale: 3,
+        ),
+      ),
+      RichText(
+          text: TextSpan(
+        text: "${currentWeather.windKph?.round()} km/h",
+        style: const TextStyle(
+          color: Color.fromARGB(255, 0, 0, 0),
+        ),
+      )),
+    ]);
+  }
+
+  Widget cloud() {
+    return Column(children: [
+      Container(
+        height: 60,
+        width: 60,
+        margin: const EdgeInsets.only(bottom: 5),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(120, 227, 227, 227),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Image.asset(
+          "assets/icons/cloud.png",
+          scale: 3,
+        ),
+      ),
+      RichText(
+          text: TextSpan(
+        text: "${currentWeather.cloud} %",
+        style: const TextStyle(
+          color: Color.fromARGB(255, 0, 0, 0),
+        ),
+      )),
+    ]);
+  }
+
+  Widget humidity() {
+    return Column(children: [
+      Container(
+        height: 60,
+        width: 60,
+        margin: const EdgeInsets.only(bottom: 5),
+        decoration: BoxDecoration(
+          color: const Color.fromARGB(120, 227, 227, 227),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Image.asset(
+          "assets/icons/humidity.png",
+          scale: 3,
+        ),
+      ),
+      RichText(
+          text: TextSpan(
+        text: "${currentWeather.humidity} %",
+        style: const TextStyle(
+          color: Color.fromARGB(255, 0, 0, 0),
+        ),
+      )),
+    ]);
   }
 }
